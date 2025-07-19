@@ -1,0 +1,8 @@
+# Prova de conhecimento em PHP
+Reposiório com objetivo de mostrar conhecimento nas tecnologias PHP utilziando framework CodeIgniter4, o sistema também cobre utilização de docker com as e banco de dados PostgreSQL proposto pela empresa Madatech.
+
+## Como rodar o projeto
+Para rodar o projeto é necessário criar o arquivo .env, que pode ser criado a partir do comando `cp .env.example .env` ou simplesmente copiando o conteúdo do arquivo **.env.example**, ter o docker e docker-compose instalado na máquina e na pasta raiz do projeto executar o comando: `sudo docker compose up`. Esse comando já ira criar o banco de dados com a tabela e também 2 containers um com php e fpm já com o sistema dentro da imagem e o outro nginx escutando na porta 8080 ou a que foi configurada no .env NGINX_PORT, uma vez que tudo finalizou e apareceu a mensagem `php-fpm-1   | [19-Jul-2025 00:44:57] NOTICE: ready to handle connections` pode acessar por um browser o link <localhost:8080/tasks>.
+
+## Sobre o projeto
+Esse projeto possui uma vizualização de uma tabela de tasks, onde é possível listar, vizualizar, editar, excluir e criar uma nova tarefa. No endpoint citado ali a cima encontramos a listagem de todas as tasks paginada, acima da tabela tem um botão que leva a tela de criação de uma nova tarefa, após os campos preenchidos como esperado clicando no botão **Criar** você sera redirecionado para a listagem, na tabela também pode-se clicar em uma linha para ir a edição do registro, podendo ser alterado qualquer campo ao primir **Salvar** ou excluir o registro no botão **Excluir**, assim completando todo um cilo CRUD de um registro no banco.

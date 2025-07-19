@@ -1,0 +1,52 @@
+services:
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker/app.Dockerfile
+    volumes:
+      - ./app:/apps/app
+    networks:
+      - server
+      - database
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:13.21-alpine3.22
+    volumes:
+      - ./app:/apps/app
+      - ./docker/database/database.sql:/docker-entrypoint-initdb.d/database.sql:ro
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+      POSTGRES_DB: madatech
+    ports:
+      - 5432:5432
+    networks:
+      - database
+    healthcheck:
+      test: pg_isready -U root -d madatech
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    domainname: postgres
+
+  nginx:
+    image: nginx:alpine3.22
+    ports:
+      - ${NGINX_PORT:-8080}:8080
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+    networks:
+      - server
+    depends_on:
+      php-fpm:
+        condition: service_started
+    attach: false
+  
+networks:
+  server:
+    driver: bridge
+  database:
+    driver: bridge
